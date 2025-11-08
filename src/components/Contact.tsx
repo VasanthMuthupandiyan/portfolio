@@ -1,7 +1,8 @@
 import React, { useState, useRef } from 'react';
-import { MapPin, Phone, Mail, Clock, Send } from 'lucide-react';
+import { MapPin, Phone, Mail, Clock, Send, MessageCircle } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import emailjs from 'emailjs-com';
+import { CLINIC_CONFIG, getCallUrl, getWhatsAppUrl } from '../config/clinic';
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -61,9 +62,9 @@ const Contact = () => {
                 </td>
               </tr>
             </table>
-            <p style="margin: 0; font-size: 16px; color: #fff;">
+              <p style="margin: 0; font-size: 16px; color: #fff;">
               Please respond to this patient as soon as possible.<br>
-              <span style="font-size: 13px; color: #e0f2fe;">PhysioCore Movement & Recovery</span>
+              <span style="font-size: 13px; color: #e0f2fe;">${CLINIC_CONFIG.clinic.name} - ${CLINIC_CONFIG.doctor.name}</span>
             </p>
           </td>
         </tr>
@@ -100,23 +101,33 @@ const Contact = () => {
   const contactInfo = [
     {
       icon: MapPin,
-      title: 'Address',
-      details: ['456 Wellness Avenue', 'Health District, HD 67890', 'United States']
+      title: 'Service Areas',
+      details: [...CLINIC_CONFIG.location.serviceAreas, CLINIC_CONFIG.location.mainLocation]
     },
     {
       icon: Phone,
-      title: 'Phone',
-      details: ['Main: (555) 987-6543', 'Emergency: (555) 987-6544', 'Fax: (555) 987-6545']
+      title: 'Phone Number',
+      details: [
+        `${CLINIC_CONFIG.contact.phones.primary}`,
+        'Quick response guaranteed'
+      ]
     },
     {
-      icon: Mail,
-      title: 'Email',
-      details: ['info@physiocore.com', 'appointments@physiocore.com', 'support@physiocore.com']
+      icon: MessageCircle,
+      title: 'WhatsApp',
+      details: [
+        `${CLINIC_CONFIG.contact.whatsapp.primary}`,
+        'Instant booking and consultations'
+      ]
     },
     {
       icon: Clock,
-      title: 'Hours',
-      details: ['Mon-Fri: 7:00 AM - 8:00 PM', 'Saturday: 8:00 AM - 5:00 PM', 'Sunday: 9:00 AM - 3:00 PM']
+      title: 'Operating Hours',
+      details: [
+        `Daily: ${CLINIC_CONFIG.contact.operatingHours}`,
+        '🏠 Home visits available',
+        '🆓 Free consultation for new patients'
+      ]
     }
   ];
 
@@ -146,10 +157,10 @@ const Contact = () => {
           className="text-center mb-16"
         >
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-            Book Your Appointment
+            BOOK YOUR APPOINTMENT TODAY!
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Ready to start your recovery journey? Contact us to schedule an assessment or learn more about our physiotherapy services.
+            Call or WhatsApp: <span className="font-bold text-sky-700">{CLINIC_CONFIG.contact.phones.primary}</span> | <span className="text-emerald-600 font-bold">FREE CONSULTATION</span> available | <span className="text-orange-600 font-bold">Home visits</span> across Chennai
           </p>
         </motion.div>
 
@@ -184,6 +195,35 @@ const Contact = () => {
                 </div>
               </motion.div>
             ))}
+            
+            {/* Quick Action Buttons */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.4 }}
+              viewport={{ once: true }}
+              className="space-y-4"
+            >
+              <h3 className="font-bold text-gray-900 mb-4">Quick Contact</h3>
+              <div className="space-y-3">
+                <a
+                  href={getCallUrl(CLINIC_CONFIG.contact.phones.primary)}
+                  className="flex items-center justify-center w-full bg-sky-600 text-white px-4 py-3 rounded-lg font-semibold hover:bg-sky-700 transition-colors duration-300"
+                >
+                  <Phone className="w-5 h-5 mr-2" />
+                  Call Now: {CLINIC_CONFIG.contact.phones.primary}
+                </a>
+                <a
+                  href={getWhatsAppUrl(CLINIC_CONFIG.contact.whatsapp.primary)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center w-full bg-green-600 text-white px-4 py-3 rounded-lg font-semibold hover:bg-green-700 transition-colors duration-300"
+                >
+                  <MessageCircle className="w-5 h-5 mr-2" />
+                  WhatsApp: {CLINIC_CONFIG.contact.whatsapp.primary}
+                </a>
+              </div>
+            </motion.div>
           </motion.div>
 
           {/* Contact Form */}
@@ -259,11 +299,14 @@ const Contact = () => {
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-sky-500 transition-colors duration-300"
                     >
                       <option value="">Select a service</option>
-                      <option value="assessment">Initial Assessment</option>
-                      <option value="sports">Sports Injury</option>
-                      <option value="chronic">Chronic Pain</option>
-                      <option value="post-surgery">Post-Surgery Rehab</option>
-                      <option value="wellness">Wellness Program</option>
+                      <option value="free-consultation">🆓 Free Consultation (New Patients)</option>
+                      <option value="neurological">🧠 Neurological Conditions (Stroke/Paralysis)</option>
+                      <option value="pediatric">👶 Pediatric Therapy</option>
+                      <option value="orthopedic">🦴 Orthopedic Cases (Back/Joint Pain)</option>
+                      <option value="pain-management">⚡ Acute Pain Management</option>
+                      <option value="ift-therapy">🔬 IFT Therapy</option>
+                      <option value="ultrasound">📡 Ultrasound Therapy</option>
+                      <option value="home-visit">🏠 Home Visit Service</option>
                       <option value="other">Other</option>
                     </select>
                   </div>

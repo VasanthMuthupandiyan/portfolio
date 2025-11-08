@@ -19,11 +19,11 @@ const Testimonials = () => {
             Patient Success Stories
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Real experiences from patients treated by <span className="font-bold text-sky-700">{CLINIC_CONFIG.doctor.name}</span> at <span className="font-bold text-emerald-700">{CLINIC_CONFIG.clinic.name}</span>
+            Real experiences from patients treated by {CLINIC_CONFIG.doctor.name} at {CLINIC_CONFIG.clinic.name}
           </p>
         </motion.div>
 
-        <div className="grid md:grid-cols-1 lg:grid-cols-3 gap-8">
+                <div className="grid md:grid-cols-1 lg:grid-cols-3 gap-8">
           {testimonials.map((testimonial, index) => (
             <motion.div
               key={index}
@@ -73,32 +73,32 @@ const Testimonials = () => {
               </div>
             </motion.div>
           ))}
-        </div>
 
-        {/* Stats Section */}
+        {/* Trust indicators */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
-          className="mt-16 bg-white rounded-2xl shadow-lg p-8"
+          className="mt-16 text-center"
         >
+          <h3 className="text-2xl font-bold text-gray-900 mb-8">Proven Results</h3>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             <div className="text-center">
-              <div className="text-3xl font-bold text-sky-600 mb-2">100%</div>
+              <div className="text-3xl font-bold text-sky-600 mb-2">95%</div>
               <div className="text-gray-600">Patient Satisfaction</div>
             </div>
             <div className="text-center">
-              <div className="text-3xl font-bold text-emerald-600 mb-2">1,000+</div>
+              <div className="text-3xl font-bold text-emerald-600 mb-2">5,000+</div>
               <div className="text-gray-600">Patients Treated</div>
             </div>
             <div className="text-center">
-              <div className="text-3xl font-bold text-sky-600 mb-2">6+</div>
-              <div className="text-gray-600">Service Areas</div>
+              <div className="text-3xl font-bold text-sky-600 mb-2">450+</div>
+              <div className="text-gray-600">Five-Star Reviews</div>
             </div>
             <div className="text-center">
-              <div className="text-3xl font-bold text-emerald-600 mb-2">FREE</div>
-              <div className="text-gray-600">Consultation</div>
+              <div className="text-3xl font-bold text-emerald-600 mb-2">15</div>
+              <div className="text-gray-600">Years of Excellence</div>
             </div>
           </div>
         </motion.div>

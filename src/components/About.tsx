@@ -1,28 +1,28 @@
-import React from 'react';
 import { Users, Award, Heart, Clock } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { CLINIC_CONFIG } from '../config/clinic';
 
 const About = () => {
   const features = [
     {
       icon: Users,
-      title: 'Expert Team',
-      description: 'Our certified physiotherapists have decades of combined experience in rehabilitation and sports medicine.'
+      title: 'Professional Team',
+      description: 'Qualified male and female physiotherapists providing friendly, professional, and patient-focused care.'
     },
     {
       icon: Award,
-      title: 'Evidence-Based',
-      description: 'All treatments are based on the latest research and proven therapeutic techniques for optimal recovery.'
+      title: 'Specialized Expertise',
+      description: `${CLINIC_CONFIG.doctor.qualification} specialization in neurological rehabilitation and advanced therapeutic techniques.`
     },
     {
       icon: Heart,
-      title: 'Patient-Centered',
-      description: 'We create personalized treatment plans tailored to each patient\'s specific condition and recovery goals.'
+      title: 'Home Care Available',
+      description: 'Professional physiotherapy services available in the comfort of your home across Chennai.'
     },
     {
       icon: Clock,
-      title: 'Flexible Hours',
-      description: 'Extended hours and emergency appointments available to accommodate your busy schedule and urgent needs.'
+      title: 'Convenient Hours',
+      description: `Daily availability from ${CLINIC_CONFIG.contact.operatingHours} with free consultation for new patients.`
     }
   ];
 
@@ -37,10 +37,10 @@ const About = () => {
           className="text-center mb-16"
         >
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-            About PhysioCore
+            About {CLINIC_CONFIG.clinic.name}
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-            Since 2009, PhysioCore has been helping patients regain mobility, strength, and confidence through expert physiotherapy care and innovative rehabilitation techniques.
+            Led by {CLINIC_CONFIG.doctor.name}, a {CLINIC_CONFIG.doctor.qualification} specialist, our clinic provides expert physiotherapy and rehabilitation services across Chennai. We specialize in neurological conditions, pediatric therapy, orthopedic rehabilitation, and advanced pain management techniques.
           </p>
         </motion.div>
 
@@ -76,7 +76,7 @@ const About = () => {
             </p>
             <div className="bg-gradient-to-r from-sky-50 to-emerald-50 p-6 rounded-lg border-l-4 border-sky-500">
               <p className="text-gray-700 font-medium">
-                "At PhysioCore, we believe that movement is medicine. Our goal is to empower every patient to live an active, pain-free life through expert rehabilitation and preventive care."
+                "At PHYSIO REHAB CLINIC, we believe that movement is medicine. Our goal is to empower every patient to live an active, pain-free life through expert rehabilitation and preventive care."
               </p>
               <p className="text-sm text-gray-600 mt-2">- Dr. James Anderson, Lead Physiotherapist</p>
             </div>

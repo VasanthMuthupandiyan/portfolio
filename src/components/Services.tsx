@@ -1,46 +1,19 @@
-import React from 'react';
-import { Activity, Zap, Target, Users, Heart, Calendar } from 'lucide-react';
+import { Brain, Baby, Bone, Activity, Zap } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { CLINIC_CONFIG } from '../config/clinic';
 
 const Services = () => {
-  const services = [
-    {
-      icon: Activity,
-      title: 'Manual Therapy',
-      description: 'Hands-on treatment techniques including joint mobilization, soft tissue massage, and myofascial release.',
-      features: ['Joint mobilization', 'Soft tissue massage', 'Trigger point therapy']
-    },
-    {
-      icon: Zap,
-      title: 'Exercise Rehabilitation',
-      description: 'Customized exercise programs designed to restore strength, flexibility, and functional movement patterns.',
-      features: ['Strength training', 'Flexibility programs', 'Functional movement']
-    },
-    {
-      icon: Target,
-      title: 'Sports Injury Treatment',
-      description: 'Specialized care for athletes and active individuals recovering from sports-related injuries.',
-      features: ['Injury assessment', 'Return-to-sport programs', 'Performance optimization']
-    },
-    {
-      icon: Users,
-      title: 'Group Classes',
-      description: 'Small group rehabilitation classes and wellness programs for ongoing support and motivation.',
-      features: ['Pilates classes', 'Balance training', 'Pain management groups']
-    },
-    {
-      icon: Heart,
-      title: 'Chronic Pain Management',
-      description: 'Comprehensive programs for managing chronic conditions and improving long-term quality of life.',
-      features: ['Pain education', 'Movement therapy', 'Lifestyle modification']
-    },
-    {
-      icon: Calendar,
-      title: 'Preventive Care',
-      description: 'Proactive assessments and programs to prevent injuries and maintain optimal physical health.',
-      features: ['Movement screening', 'Ergonomic assessment', 'Injury prevention']
+  const services = CLINIC_CONFIG.services.specialized;
+
+  const getIcon = (iconName: string) => {
+    switch (iconName) {
+      case 'brain': return Brain;
+      case 'baby': return Baby;
+      case 'bone': return Bone;
+      case 'activity': return Activity;
+      default: return Activity;
     }
-  ];
+  };
 
   return (
     <section id="services" className="py-16 bg-gray-50">
@@ -53,43 +26,137 @@ const Services = () => {
           className="text-center mb-16"
         >
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-            Our Comprehensive Services
+            Our Specialized Services
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            From injury rehabilitation to performance enhancement, we offer a complete range of physiotherapy services designed to help you move better and feel stronger.
+            Comprehensive physiotherapy services by <span className="font-bold text-sky-700">{CLINIC_CONFIG.doctor.name}</span> ({CLINIC_CONFIG.doctor.qualification}) specializing in neurological rehabilitation, pediatric therapy, and advanced pain management techniques.
           </p>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {services.map((service, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: index * 0.1 }}
-              viewport={{ once: true }}
-              className="bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 group hover:-translate-y-1"
-            >
-              <div className="w-16 h-16 bg-gradient-to-br from-sky-500 to-emerald-500 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
-                <service.icon className="w-8 h-8 text-white" />
-              </div>
-              
-              <h3 className="text-xl font-bold text-gray-900 mb-3">{service.title}</h3>
-              <p className="text-gray-600 mb-6 leading-relaxed">{service.description}</p>
-              
-              <div className="space-y-2">
-                {service.features.map((feature, featureIndex) => (
-                  <div key={featureIndex} className="flex items-center text-sm text-gray-700">
-                    <div className="w-2 h-2 bg-gradient-to-r from-sky-500 to-emerald-500 rounded-full mr-3"></div>
-                    {feature}
+        {/* Main Services Grid */}
+        <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-8 mb-16">
+          {services.map((service, index) => {
+            const IconComponent = getIcon(service.icon);
+            return (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 50 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: index * 0.1 }}
+                viewport={{ once: true }}
+                whileHover={{ 
+                  y: -10,
+                  boxShadow: "0 20px 40px rgba(0,0,0,0.15)",
+                  scale: 1.02
+                }}
+                className="bg-white rounded-2xl shadow-lg overflow-hidden group cursor-pointer transition-all duration-300"
+              >
+                {/* Service Image */}
+                <div className="h-48 relative overflow-hidden">
+                  <img 
+                    src={service.image} 
+                    alt={service.title}
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  <div className="absolute bottom-4 left-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <div className="w-12 h-12 bg-white/90 rounded-lg flex items-center justify-center">
+                      <IconComponent className="w-6 h-6 text-sky-600" />
+                    </div>
                   </div>
-                ))}
-              </div>
-            </motion.div>
-          ))}
+                </div>
+                
+                <div className="p-6">
+                  <div className="flex items-center mb-4">
+                    <div className="w-12 h-12 bg-gradient-to-br from-sky-500 to-emerald-500 rounded-lg flex items-center justify-center mr-4 group-hover:scale-110 transition-transform duration-300">
+                      <IconComponent className="w-6 h-6 text-white" />
+                    </div>
+                    <h3 className="text-xl font-bold text-gray-900 group-hover:text-sky-600 transition-colors duration-300">
+                      {service.title}
+                    </h3>
+                  </div>
+                  
+                  <p className="text-gray-600 mb-6 group-hover:text-gray-700 transition-colors duration-300">
+                    {service.description}
+                  </p>
+                  
+                  <div className="space-y-2 mb-6">
+                    {CLINIC_CONFIG.services.basic.slice(index * 2, (index * 2) + 2).map((feature, featureIndex) => (
+                      <div key={featureIndex} className="flex items-center text-sm text-gray-600">
+                        <div className="w-2 h-2 bg-gradient-to-r from-sky-500 to-emerald-500 rounded-full mr-3 group-hover:scale-125 transition-transform duration-300"></div>
+                        {feature}
+                      </div>
+                    ))}
+                  </div>
+                  
+                  <motion.div
+                    className="mt-6 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                    whileHover={{ scale: 1.05 }}
+                  >
+                    <button 
+                      onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
+                      className="w-full bg-gradient-to-r from-sky-600 to-emerald-600 text-white py-3 rounded-lg font-semibold hover:shadow-lg transition-all duration-300"
+                    >
+                      Book Free Consultation
+                    </button>
+                  </motion.div>
+                </div>
+              </motion.div>
+            );
+          })}
         </div>
 
-        {/* Call to action */}
+        {/* Advanced Therapies Section */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          viewport={{ once: true }}
+          className="bg-white rounded-2xl shadow-lg p-8"
+        >
+          <div className="text-center mb-12">
+            <h3 className="text-3xl font-bold text-gray-900 mb-4">Advanced Therapies Available</h3>
+            <p className="text-xl text-gray-600">Cutting-edge treatment techniques for faster recovery and pain relief</p>
+          </div>
+          
+          <div className="grid md:grid-cols-2 gap-8">
+            {CLINIC_CONFIG.services.advanced.map((therapy, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, x: index % 2 === 0 ? -50 : 50 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8, delay: index * 0.2 }}
+                viewport={{ once: true }}
+                whileHover={{ y: -5, boxShadow: "0 15px 30px rgba(0,0,0,0.1)" }}
+                className="bg-gradient-to-br from-sky-50 to-emerald-50 rounded-xl shadow-md overflow-hidden group"
+              >
+                <div className="h-32 relative overflow-hidden">
+                  <img 
+                    src={therapy.image} 
+                    alt={therapy.name}
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-sky-900/70 to-transparent"></div>
+                  <div className="absolute bottom-2 left-4 text-white">
+                    <h4 className="text-lg font-bold">{therapy.name}</h4>
+                  </div>
+                </div>
+                <div className="p-6">
+                  <p className="text-gray-600 text-base mb-4">{therapy.description}</p>
+                  <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    className="bg-sky-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-sky-700 transition-colors duration-300"
+                    onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
+                  >
+                    Learn More
+                  </motion.button>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
+
+        {/* Call to Action */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -97,17 +164,17 @@ const Services = () => {
           viewport={{ once: true }}
           className="text-center mt-16"
         >
-          <div className="bg-gradient-to-r from-sky-600 to-emerald-600 text-white p-8 rounded-2xl shadow-xl">
+          <div className="bg-gradient-to-r from-sky-600 to-emerald-600 rounded-2xl p-8 text-white">
             <h3 className="text-2xl font-bold mb-4">Ready to Start Your Recovery Journey?</h3>
-            <p className="text-lg mb-6 opacity-90">
-              Our physiotherapists are here to help you achieve your movement and wellness goals.
-            </p>
-            <button
+            <p className="text-lg mb-6">Get your FREE consultation with {CLINIC_CONFIG.doctor.name} today!</p>
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
               onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
               className="bg-white text-sky-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors duration-300"
             >
-              Schedule Your Assessment
-            </button>
+              Book Your Free Assessment
+            </motion.button>
           </div>
         </motion.div>
       </div>

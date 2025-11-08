@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Menu, X, Phone, MapPin } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { CLINIC_CONFIG, getCallUrl } from '../config/clinic';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -45,15 +46,17 @@ const Navbar = () => {
           <div className="flex items-center space-x-4">
             <div className="flex items-center">
               <Phone className="w-4 h-4 mr-2" />
-              <span>(555) 987-6543</span>
+              <a href={getCallUrl(CLINIC_CONFIG.contact.phones.primary)} className="hover:text-sky-200">
+                {CLINIC_CONFIG.contact.phones.primary}
+              </a>
             </div>
             <div className="flex items-center">
               <MapPin className="w-4 h-4 mr-2" />
-              <span>456 Wellness Avenue, Health District, HD 67890</span>
+              <span>{CLINIC_CONFIG.location.mainLocation}</span>
             </div>
           </div>
           <div className="hidden md:block">
-            <span>Open Mon-Fri: 7AM-8PM | Sat: 8AM-5PM | Sun: 9AM-3PM</span>
+            <span>Open Daily: {CLINIC_CONFIG.contact.operatingHours} | Home visits available</span>
           </div>
         </div>
       </div>
@@ -66,11 +69,11 @@ const Navbar = () => {
             className="flex items-center"
           >
             <div className="w-10 h-10 bg-gradient-to-br from-sky-500 to-emerald-500 rounded-lg flex items-center justify-center text-white font-bold text-xl mr-3">
-              PC
+              PR
             </div>
             <div>
-              <h1 className="text-xl font-bold text-gray-800">PhysioCore</h1>
-              <p className="text-xs text-gray-600">Movement & Recovery</p>
+              <h1 className="text-xl font-bold text-gray-800">{CLINIC_CONFIG.clinic.name}</h1>
+              <p className="text-xs text-gray-600">{CLINIC_CONFIG.doctor.name} - {CLINIC_CONFIG.doctor.qualification}</p>
             </div>
           </motion.div>
 

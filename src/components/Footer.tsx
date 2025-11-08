@@ -1,6 +1,6 @@
-import React from 'react';
 import { Facebook, Twitter, Instagram, Linkedin, Phone, Mail, MapPin } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { CLINIC_CONFIG, getCallUrl } from '../config/clinic';
 
 const Footer = () => {
   const socialLinks = [
@@ -19,14 +19,7 @@ const Footer = () => {
     'Careers'
   ];
 
-  const services = [
-    'Manual Therapy',
-    'Sports Rehabilitation',
-    'Chronic Pain Management',
-    'Post-Surgery Recovery',
-    'Exercise Programs',
-    'Wellness Assessments'
-  ];
+  const services = CLINIC_CONFIG.services.basic;
 
   return (
     <footer className="bg-gray-900 text-white">
@@ -42,15 +35,15 @@ const Footer = () => {
           >
             <div className="flex items-center">
               <div className="w-12 h-12 bg-gradient-to-br from-sky-500 to-emerald-500 rounded-lg flex items-center justify-center text-white font-bold text-xl mr-3">
-                PC
+                PR
               </div>
               <div>
-                <h3 className="text-xl font-bold">PhysioCore</h3>
-                <p className="text-sm text-gray-400">Movement & Recovery</p>
+                <h3 className="text-xl font-bold">{CLINIC_CONFIG.clinic.name}</h3>
+                <p className="text-sm text-gray-400">{CLINIC_CONFIG.doctor.name}</p>
               </div>
             </div>
             <p className="text-gray-300 leading-relaxed">
-              Providing expert physiotherapy and rehabilitation services to help you move better, feel stronger, and live pain-free for over 15 years.
+              {CLINIC_CONFIG.clinic.description}. Expert care by {CLINIC_CONFIG.doctor.name} ({CLINIC_CONFIG.doctor.qualification}) with FREE consultation for new patients and home visits available.
             </p>
             <div className="flex space-x-4">
               {socialLinks.map((social, index) => (
@@ -123,26 +116,35 @@ const Footer = () => {
               <div className="flex items-start space-x-3">
                 <MapPin className="w-5 h-5 text-sky-400 mt-1" />
                 <div>
-                  <p className="text-gray-300">456 Wellness Avenue</p>
-                  <p className="text-gray-300">Health District, HD 67890</p>
+                  <p className="text-gray-300 font-semibold">{CLINIC_CONFIG.location.mainLocation}</p>
+                  <p className="text-gray-400 text-sm">Service Areas: {CLINIC_CONFIG.location.serviceAreas.join(', ')}</p>
                 </div>
               </div>
               <div className="flex items-center space-x-3">
                 <Phone className="w-5 h-5 text-sky-400" />
-                <p className="text-gray-300">(555) 987-6543</p>
+                <div>
+                  <p className="text-gray-300 font-semibold">{CLINIC_CONFIG.contact.phones.primary}</p>
+                  <p className="text-gray-400 text-sm">Quick response guaranteed</p>
+                </div>
               </div>
               <div className="flex items-center space-x-3">
                 <Mail className="w-5 h-5 text-sky-400" />
-                <p className="text-gray-300">info@physiocore.com</p>
+                <p className="text-gray-300">{CLINIC_CONFIG.contact.email}</p>
               </div>
             </div>
 
-            {/* Emergency notice */}
-            <div className="mt-6 p-4 bg-orange-600 rounded-lg">
-              <h5 className="font-semibold text-white mb-2">Urgent Care?</h5>
-              <p className="text-sm text-orange-100">
-                For medical emergencies, call 911. For urgent physiotherapy needs, call our emergency line: (555) 987-6544
+            {/* Call to action */}
+            <div className="mt-6 p-4 bg-gradient-to-r from-emerald-600 to-sky-600 rounded-lg">
+              <h5 className="font-bold text-white mb-2">🆓 FREE CONSULTATION!</h5>
+              <p className="text-sm text-emerald-100 mb-3">
+                🏠 Home visits available | ⏰ Hours: {CLINIC_CONFIG.contact.operatingHours}
               </p>
+              <a
+                href={getCallUrl(CLINIC_CONFIG.contact.phones.primary)}
+                className="inline-block bg-white text-emerald-600 px-4 py-2 rounded font-semibold text-sm hover:bg-gray-100 transition-colors"
+              >
+                📞 Call Now: {CLINIC_CONFIG.contact.phones.primary}
+              </a>
             </div>
           </motion.div>
         </div>
@@ -153,7 +155,7 @@ const Footer = () => {
         <div className="container mx-auto px-4 py-6">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <p className="text-gray-400 text-sm">
-              © 2024 PhysioCore. All rights reserved. Licensed Physiotherapy Clinic #PT789012
+              © 2024 {CLINIC_CONFIG.clinic.name}. All rights reserved. Licensed Physiotherapy Services by {CLINIC_CONFIG.doctor.name}
             </p>
             <div className="flex space-x-6 mt-4 md:mt-0">
               <a href="#" className="text-gray-400 hover:text-sky-400 text-sm transition-colors duration-300">
