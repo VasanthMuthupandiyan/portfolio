@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { MapPin, Phone, Mail, Clock, Send, MessageCircle } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import emailjs from 'emailjs-com';
+import emailjs from '@emailjs/browser';
 import { CLINIC_CONFIG, getCallUrl, getWhatsAppUrl } from '../config/clinic';
 
 const Contact = () => {

@@ -3,36 +3,50 @@ import react from '@vitejs/plugin-react';
 
 // Intelligent base URL configuration for different environments:
 // - Development: Uses '/' for clean localhost URLs
-// - Production: Uses '/portfolio/' for GitHub Pages deployment
-// - Override via VITE_BASE_URL environment variable
+// - Production: Configurable for GitHub Pages or custom domain
+// - Override via VITE_BASE_URL or VITE_PRODUCTION_BASE_URL environment variable
 export default ({ mode }: ConfigEnv) => {
   // Load environment variables for the current mode
   const env = loadEnv(mode, process.cwd(), '');
 
   // Smart base URL detection:
-  // 1. If VITE_BASE_URL is explicitly set, use it
-  // 2. If in development mode, use '/' for clean localhost URLs  
-  // 3. If in production mode, use '/portfolio/' for GitHub Pages
   const getBaseUrl = (): string => {
+    // 1. If VITE_BASE_URL is explicitly set, use it
     if (env.VITE_BASE_URL) {
-      console.log(`🔧 Using custom base URL: ${env.VITE_BASE_URL}`);
+      console.log(`🔧 Using VITE_BASE_URL: ${env.VITE_BASE_URL}`);
       return env.VITE_BASE_URL;
     }
 
-    // Check if we're building for production
+    // 2. Check for production-specific override
     const isProduction = mode === 'production' || process.env.NODE_ENV === 'production';
-    const baseUrl = isProduction ? '/portfolio/' : '/';
-    console.log(`🎯 Auto-detected base URL: ${baseUrl} (mode: ${mode}, NODE_ENV: ${process.env.NODE_ENV})`);
+    if (isProduction && env.VITE_PRODUCTION_BASE_URL) {
+      console.log(`🎯 Using VITE_PRODUCTION_BASE_URL: ${env.VITE_PRODUCTION_BASE_URL}`);
+      return env.VITE_PRODUCTION_BASE_URL;
+    }
+
+    // 3. Check if we're in CI/CD environment (GitHub Actions)
+    if (process.env.CI || process.env.GITHUB_ACTIONS) {
+      const repoName = process.env.GITHUB_REPOSITORY?.split('/')[1] || 'portfolio';
+      const ciBaseUrl = `/${repoName}/`;
+      console.log(`🚀 CI detected, using: ${ciBaseUrl}`);
+      return ciBaseUrl;
+    }
+
+    // 4. Default fallback
+    const baseUrl = isProduction ? '/' : '/';
+    console.log(`🎯 Using default base URL: ${baseUrl} (mode: ${mode})`);
     return baseUrl;
   };
 
   const base = getBaseUrl();
   const appTitle = env.VITE_APP_TITLE || 'PHYSIO REHAB CLINIC';
 
+  console.log(`🌐 Final base URL: ${base}`);
+
   return defineConfig({
     plugins: [react()],
 
-    // Base URL for assets - crucial for GitHub Pages deployment
+    // Base URL for assets - crucial for deployment
     base,
 
     // Development server configuration
@@ -54,7 +68,7 @@ export default ({ mode }: ConfigEnv) => {
             vendor: ['react', 'react-dom'],
             animations: ['framer-motion'],
             icons: ['lucide-react'],
-            email: ['emailjs-com'],
+            email: ['@emailjs/browser'],
           },
         },
       },
