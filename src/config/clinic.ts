@@ -25,7 +25,7 @@ export const CLINIC_CONFIG = {
     whatsapp: {
       primary: "9790545684"
     },
-    email: "info@physiorehab.com",
+    email: "swethakumar611@gmail.com",
     operatingHours: "09:00am to 12:00pm"
   },
   

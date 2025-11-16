@@ -355,8 +355,11 @@ const Contact = () => {
               <div className="text-center">
                 <MapPin className="w-12 h-12 text-sky-600 mx-auto mb-4" />
                 <h4 className="text-xl font-semibold text-gray-900 mb-2">Visit Our Clinic</h4>
-                <p className="text-gray-600">456 Wellness Avenue, Health District, HD 67890</p>
-                <button className="mt-4 bg-sky-600 hover:bg-sky-700 text-white px-6 py-2 rounded-lg transition-colors duration-300">
+                <p className="text-gray-600">Tulips multispeciality hospital Sholinganallur</p>
+                <button 
+                  onClick={() => window.open('https://www.google.com/maps/search/?api=1&query=Tulips+multispeciality+hospital+Sholinganallur', '_blank')}
+                  className="mt-4 bg-sky-600 hover:bg-sky-700 text-white px-6 py-2 rounded-lg transition-colors duration-300"
+                >
                   Get Directions
                 </button>
               </div>
