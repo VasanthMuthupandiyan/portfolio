@@ -44,7 +44,18 @@ jobs:
 
           npm run build
 
+          # Create 404.html for SPA routing (copy from index.html)
+          cp dist/index.html dist/404.html
+          echo "📄 Created 404.html for SPA routing"
+
+          # Copy CNAME to dist folder for custom domain
+          if [ -f "CNAME" ]; then
+            cp CNAME dist/
+            echo "📋 Copied CNAME file to dist/"
+          fi
+
           echo "📁 Build contents:"
+          ls -la dist/
           ls -la dist/
           
           # Copy CNAME to dist folder for custom domain
