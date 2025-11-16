@@ -28,14 +28,23 @@ export default ({ mode }: ConfigEnv) => {
     if (process.env.CI || process.env.GITHUB_ACTIONS) {
       const repoName = process.env.GITHUB_REPOSITORY?.split('/')[1] || 'portfolio';
       const ciBaseUrl = `/${repoName}/`;
-      console.log(`🚀 CI detected, using: ${ciBaseUrl}`);
+      console.log(`🤖 CI detected, using: ${ciBaseUrl}`);
       return ciBaseUrl;
     }
 
-    // 4. Default fallback
-    const baseUrl = isProduction ? '/' : '/';
-    console.log(`🎯 Using default base URL: ${baseUrl} (mode: ${mode})`);
-    return baseUrl;
+    // 4. Smart default based on environment
+    if (isProduction) {
+      // For production builds without CI, check if we have a custom domain (CNAME file exists)
+      const hasCustomDomain = process.env.VITE_CUSTOM_DOMAIN || false;
+      const prodBaseUrl = hasCustomDomain ? '/' : '/portfolio/';
+      console.log(`🌐 Production build, using: ${prodBaseUrl} (custom domain: ${hasCustomDomain})`);
+      return prodBaseUrl;
+    }
+    
+    // Development default
+    const devBaseUrl = '/';
+    console.log(`🔧 Development mode, using: ${devBaseUrl}`);
+    return devBaseUrl;
   };
 
   const base = getBaseUrl();
