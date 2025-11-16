@@ -32,18 +32,26 @@ jobs:
         
       - name: Build for GitHub Pages
         run: |
-          # Set production environment variables for GitHub Pages
+          # Production environment variables
           export NODE_ENV=production
-          export VITE_BASE_URL=/portfolio/
           export GITHUB_REPOSITORY=${{ github.repository }}
           export CI=true
           export GITHUB_ACTIONS=true
-          
-          echo "🚀 Building with base URL: /portfolio/"
+
+          # Since CNAME file exists (custom domain), always use base '/'
+          export VITE_BASE_URL=/
+          echo "🌐 Building for custom domain with base '/'"
+
           npm run build
-          
+
           echo "📁 Build contents:"
           ls -la dist/
+          
+          # Copy CNAME to dist folder for custom domain
+          if [ -f CNAME ]; then
+            cp CNAME dist/
+            echo "✅ CNAME file copied to dist/"
+          fi
           
       - name: Setup Pages
         uses: actions/configure-pages@v4

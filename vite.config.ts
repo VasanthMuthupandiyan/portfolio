@@ -1,5 +1,6 @@
 import { defineConfig, loadEnv, ConfigEnv } from 'vite';
 import react from '@vitejs/plugin-react';
+import fs from 'fs';
 
 // Intelligent base URL configuration for different environments:
 // - Development: Uses '/' for clean localhost URLs
@@ -26,6 +27,11 @@ export default ({ mode }: ConfigEnv) => {
 
     // 3. Check if we're in CI/CD environment (GitHub Actions)
     if (process.env.CI || process.env.GITHUB_ACTIONS) {
+      const hasCname = fs.existsSync('CNAME');
+      if (hasCname) {
+        console.log('🤖 CI detected with CNAME file -> using root base /');
+        return '/';
+      }
       const repoName = process.env.GITHUB_REPOSITORY?.split('/')[1] || 'portfolio';
       const ciBaseUrl = `/${repoName}/`;
       console.log(`🤖 CI detected, using: ${ciBaseUrl}`);
@@ -35,7 +41,7 @@ export default ({ mode }: ConfigEnv) => {
     // 4. Smart default based on environment
     if (isProduction) {
       // For production builds without CI, check if we have a custom domain (CNAME file exists)
-      const hasCustomDomain = process.env.VITE_CUSTOM_DOMAIN || false;
+      const hasCustomDomain = fs.existsSync('CNAME') || env.VITE_CUSTOM_DOMAIN === 'true';
       const prodBaseUrl = hasCustomDomain ? '/' : '/portfolio/';
       console.log(`🌐 Production build, using: ${prodBaseUrl} (custom domain: ${hasCustomDomain})`);
       return prodBaseUrl;
